@@ -1,0 +1,93 @@
+import numpy as np
+import scipy as sp
+import matplotlib.pyplot as plt
+import sympy as smp
+plt.style.use(['science','notrbook'])
+
+x = np.linspace(0,3,100)
+f = 2*np.exp(-2*x)
+F = 1-np.exp(-2*x)
+
+plt.figure(figsize=(8,3))
+plt.plot(x,f, label = r'$f(x)$')
+plt.plot(x,F, label = r'$f(x)$')
+plt.legend()
+plt.xlabel('$x$', fontsize=20)
+plt.legend()
+plt.show()
+
+Us = np.random.rand(1000)
+F_inv_Us = -np.log(1-Us)/2
+
+plt.figure(figsize=(8,3))
+plt.plot(x,f, label =r'$(x)$')
+plt. hist(F_inv_Us , histtype='step', color='red',density='norm', bins=100, label='F^{-1}(u)$')
+plt.legend()
+plt.xlabel('$x$', fontsize= 20)
+plt.legend()
+plt.show()
+
+x , y ,F1 ,F2, E1, E2 = smp.symbols('x  y F_1 F_2 E_1 E_2', real=True , Nositive=True)
+fs = F1*smp.exp(-smp.sqrt(x/E1)) + F2*smp.exp(-smp.sqrt(x/E2))
+fs
+Fs = smp.integrate(fs, (x,0,y)).doit()
+Fs
+
+Fn =smp.lambdify((y, E1, E2 , F1, F2) , Fs)
+fn = smp.lambdify((x,E1, E2 , F1, F2) , fs)
+E1 = E2 = 0.2
+F1 = 1.3
+F2 =1.4
+X= np.linspace(0,5,1000)
+f = fn(x,E1, E2 , F1, F2)
+F= Fn(x,E1, E2 , F1, F2)
+
+plt.figure(figsize=(8,3))
+plt.plot(x, f, label=r'$f(x)$')
+plt.plot(X, F, label=r'$f(x)$')
+plt.legend()
+
+F_inv_Us = x[np.searchsorted(F[:-1], Us)]
+
+plt.figure(figsize=(8,3))
+plt.plot(x,f, label =r'$(x)$')
+plt. hist(F_inv_Us , histtype='step', color='red',density='norm', bins=100, label='F^{-1}(u)$')
+plt.legend()
+plt.xlabel('$x$', fontsize= 20)
+plt.legend()
+plt.xlim(0,2)
+plt.show()
+
+np.random
+
+r = np.random.rayleigh(size = 1000)
+plt.show()
+
+plt.hist(r, bins=100)
+plt.show()
+
+np.random
+
+N = 100000
+
+X = np.random.poisson(lam =4, size = N)
+
+x = np.linspace(0,5,1000)
+F = Fn(x , E1 , E2 ,F1 ,F2)
+Us = np.random.rand(X.sum())
+E = x[np.searchsorted(F[:-1], Us)]
+
+idx = np.insert(X.cumsum(), 0, 0)[:-1]
+idx [0:10]
+
+E [0:10]
+
+E_10s = np.add.reduceat(E, idx)
+
+plt.figure(figsize=(8,3))
+plt.hist(E_10s, bins=100)
+plt.xlabel('Energy [GeV]', fontsize =20)
+plt.ylabel('# Occurences')
+plt.show
+
+np.sum(E_10s>7.5)/len(E_10s)

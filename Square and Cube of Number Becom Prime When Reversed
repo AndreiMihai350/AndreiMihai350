@@ -1,0 +1,42 @@
+def is_prime(x):
+    # Check if a number is prime
+    if x < 2:
+        return False
+    # Even numbers greater than 2 are not prime
+    if x % 2 == 0:
+        return x == 2
+    # Check divisibility by odd numbers only
+    i = 3
+    while i * i <= x:
+        if x % i == 0:
+            return False
+        i += 2
+    return True
+
+
+def reverse_number(x):
+    # Reverse the digits of a number
+    return int(str(x)[::-1])
+
+
+# List to store (memoize) the valid numbers in the sequence
+sequence = []
+
+def sq_cub_rev_prime(k):
+    # Find the k-th number whose square and cube,
+    # when reversed, are both prime numbers
+    n = 1
+    while len(sequence) < k:
+        # Calculate square and cube
+        sq = n * n
+        cb = n * n * n
+
+        # Reverse square and cube and check if they are prime
+        if is_prime(reverse_number(sq)) and is_prime(reverse_number(cb)):
+            sequence.append(n)
+
+        # Move to the next number
+        n += 1
+
+    # Return the k-th element (1-based index)
+    return sequence[k - 1]
